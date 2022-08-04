@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MinusCircleIcon } from "@heroicons/react/solid";
+import { MinusCircleIcon, BadgeCheckIcon } from "@heroicons/react/solid";
 
 const getLocalData = () => {
   const data = localStorage.getItem("todos");
@@ -38,6 +38,16 @@ function App() {
     setTodos(filtered);
   };
 
+  const handleComplete = (e) => {
+    if(e.currentTarget.firstChild.classList.contains("bg-red-500")){
+      e.currentTarget.firstChild.classList.remove("bg-red-500");
+      e.currentTarget.firstChild.classList.add("bg-green-500");
+    } else {
+      e.currentTarget.firstChild.classList.remove("bg-green-500");
+      e.currentTarget.firstChild.classList.add("bg-red-500");
+    }
+  }
+
   return (
     <div className="container max-w-sm mx-auto mt-10 h-[80vh] rounded-xl border border-slate-700 flex flex-col">
       <h1 className="text-center p-2 font-bold my-4">To Do App</h1>
@@ -65,10 +75,15 @@ function App() {
           todos.map((todo) => {
             return (
               <div key={todo.id} className="flex justify-between px-4">
-                <p>{todo.task}</p>{" "}
+                <p className="text-neutral-800">{todo.task}</p>{" "}
+                <div>
+                <button onClick={(e) => handleComplete(e)}>
+                  <BadgeCheckIcon className="w-6 h-6 rounded-2xl bg-red-500"/>
+                </button>
                 <button onClick={() => handleDelete(todo.id)}>
                   <MinusCircleIcon className="w-6 h-6" />
                 </button>
+                </div>
               </div>
             );
           })
